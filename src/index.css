@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-vazir: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --a11y-font-scale: 1;
+    --a11y-line-height: 1.6;
+    --a11y-letter-spacing: 0px;
+  }
+
+  body {
+    font-family: var(--font-vazir);
+    font-feature-settings: "ss01", "ss02";
+    line-height: var(--a11y-line-height);
+    letter-spacing: var(--a11y-letter-spacing);
+  }
+}
+
+/* Accessibility Modes */
+.a11y-contrast-yellow-black {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+}
+.a11y-contrast-yellow-black * {
+  background-color: #000000 !important;
+  color: #ffff00 !important;
+  border-color: #ffff00 !important;
+}
+
+.a11y-contrast-dark {
+  background-color: #090d16 !important;
+  color: #f1f5f9 !important;
+}
+.a11y-contrast-dark .bg-white {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+  border-color: #374151 !important;
+}
+.a11y-contrast-dark .bg-slate-50 {
+  background-color: #1f2937 !important;
+  color: #f3f4f6 !important;
+}
+.a11y-contrast-dark .text-slate-900,
+.a11y-contrast-dark .text-slate-800 {
+  color: #f9fafb !important;
+}
+.a11y-contrast-dark .text-slate-600,
+.a11y-contrast-dark .text-slate-500 {
+  color: #cbd5e1 !important;
+}
+
+/* Focus Visible Enhancements for Screen Readers & Keyboard Nav */
+*:focus-visible {
+  outline: 3px solid #6366f1 !important;
+  outline-offset: 2px !important;
+}
+
+/* Screen reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Reading Ruler Guide */
+.reading-guide-line {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: rgba(99, 102, 241, 0.15);
+  border-top: 2px solid #6366f1;
+  border-bottom: 2px solid #6366f1;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translateY(-50%);
+}

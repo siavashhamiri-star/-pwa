@@ -1,0 +1,273 @@
+import React, { useState } from 'react';
+import {
+  Store,
+  Users,
+  Award,
+  Share2,
+  LayoutDashboard,
+  Shield,
+  Layers,
+  PlusCircle,
+  LogIn,
+  LogOut,
+  Search,
+  Accessibility,
+  Menu,
+  X,
+  Volume2,
+  Zap,
+} from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { useTavanaCity } from '../../context/TavanaCityContext';
+import { useAccessibility } from '../../context/AccessibilityContext';
+import { LeagueBadge } from '../common/Badge';
+import { toPersianDigits, formatPersianNumber } from '../../utils/persian';
+
+interface HeaderProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  onOpenRegisterBusiness: () => void;
+  onOpenAuthModal: () => void;
+  onOpenAdminModal: () => void;
+  onOpenArchitectureModal: () => void;
+  onOpenAutomationModal: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({
+  activeTab,
+  setActiveTab,
+  onOpenRegisterBusiness,
+  onOpenAuthModal,
+  onOpenAdminModal,
+  onOpenArchitectureModal,
+  onOpenAutomationModal,
+}) => {
+  const { currentUser, logout } = useAuth();
+  const { searchQuery, setSearchQuery } = useTavanaCity();
+  const { announce } = useAccessibility();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { id: 'home', label: 'صفحه اصلی', icon: Store },
+    { id: 'businesses', label: 'ویترین کسب‌وکارها', icon: Store },
+    { id: 'rooms', label: 'اتاق‌های هم‌افزایی', icon: Users },
+    { id: 'leagues', label: 'لیگ توانمندان', icon: Award },
+    { id: 'referrals', label: 'باشگاه دعوت', icon: Share2 },
+    { id: 'dashboard', label: 'داشبورد من', icon: LayoutDashboard },
+  ];
+
+  return (
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-18 gap-4">
+          {/* Logo and Brand */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                setActiveTab('home');
+                announce('هدایت به صفحه اصلی شهر توانا');
+              }}
+              className="flex items-center gap-3 text-right group cursor-pointer focus:ring-2 focus:ring-indigo-500 rounded-2xl p-1"
+              aria-label="صفحه اصلی شهر توانا"
+            >
+              <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform">
+                <Accessibility className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-black text-lg sm:text-xl text-slate-900 tracking-tight">
+                    شهر توانا
+                  </span>
+                  <span className="text-[10px] px-1.5 py-0.5 bg-indigo-50 text-indigo-700 font-bold rounded-md border border-indigo-100">
+                    PWA / Web Core
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 font-medium hidden sm:block">
+                  زیست‌بوم جامع دسترسی‌پذیر توان‌آفرینان
+                </p>
+              </div>
+            </button>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1 text-xs font-bold" aria-label="ناوبری اصلی">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveTab(item.id);
+                    announce(`ورود به بخش ${item.label}`);
+                  }}
+                  className={`px-3 py-2 rounded-xl flex items-center gap-1.5 transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-indigo-50 text-indigo-700 font-black shadow-2xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-600' : 'text-slate-400'}`} />
+                  {item.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Actions & User State */}
+          <div className="flex items-center gap-2">
+            {/* Automation Hub Button */}
+            <button
+              onClick={() => {
+                onOpenAutomationModal();
+                announce('مشاهده مرکز خودکارسازی بیلد و استقرار EPF, EPK, APK, Render و Cloudflare');
+              }}
+              aria-label="مرکز خودکارسازی بیلد و استقرار چندسکویی"
+              className="hidden xl:flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer border border-indigo-500/40"
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-300" />
+              <span>CI/CD & Builds</span>
+            </button>
+
+            {/* Architecture Core Inspector Button */}
+            <button
+              onClick={() => {
+                onOpenArchitectureModal();
+                announce('مشاهده معماری جامع هسته توانا و انطباق پلتفرم‌ها');
+              }}
+              aria-label="مشاهده معماری هسته مرکزی توانا و انطباق اندروید و وب"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow-2xs border border-slate-700 cursor-pointer"
+            >
+              <Layers className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Tavana Core</span>
+            </button>
+
+            {/* Register Business CTA */}
+            <button
+              onClick={() => {
+                onOpenRegisterBusiness();
+                announce('باز شدن فرم ثبت ویترین کسب‌وکار');
+              }}
+              className="hidden md:flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-xs cursor-pointer"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>ثبت ویترین (+۱۵۰ XP)</span>
+            </button>
+
+            {/* Admin Panel Trigger (if Admin) */}
+            {currentUser?.role === 'ADMIN' && (
+              <button
+                onClick={() => {
+                  onOpenAdminModal();
+                  announce('ورود به پنل نظارت و مدیریت ارشد');
+                }}
+                className="p-2 bg-purple-50 text-purple-700 hover:bg-purple-100 rounded-xl border border-purple-200 text-xs font-bold flex items-center gap-1 cursor-pointer"
+                title="پنل مدیریت ارشد"
+              >
+                <Shield className="w-4 h-4" />
+                <span className="hidden xl:inline">مرکز نظارت</span>
+              </button>
+            )}
+
+            {/* User Profile / Switcher */}
+            {currentUser ? (
+              <div className="flex items-center gap-2 pr-1 border-r border-slate-200">
+                <button
+                  onClick={onOpenAuthModal}
+                  className="flex items-center gap-2 p-1.5 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer text-right"
+                  title="تغییر کاربر دمو یا مشاهده حساب"
+                >
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.displayName}
+                    className="w-8 h-8 rounded-full border border-indigo-500/30 object-cover"
+                  />
+                  <div className="hidden sm:block">
+                    <div className="text-xs font-bold text-slate-900 line-clamp-1">
+                      {currentUser.displayName}
+                    </div>
+                    <div className="text-[10px] text-indigo-600 font-black font-latin">
+                      {formatPersianNumber(currentUser.xp)} XP
+                    </div>
+                  </div>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onOpenAuthModal}
+                className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl flex items-center gap-1.5 cursor-pointer"
+              >
+                <LogIn className="w-4 h-4" />
+                <span>ورود / عضویت</span>
+              </button>
+            )}
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-100"
+              aria-label="باز کردن منوی موبایل"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-slate-100 space-y-2">
+            <nav className="grid grid-cols-2 gap-2 text-xs font-bold">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setIsMobileMenuOpen(false);
+                      announce(`ورود به بخش ${item.label}`);
+                    }}
+                    className={`p-2.5 rounded-xl flex items-center gap-2 text-right ${
+                      isActive
+                        ? 'bg-indigo-50 text-indigo-700 font-bold'
+                        : 'text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {item.label}
+                  </button>
+                );
+              })}
+            </nav>
+
+            <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenArchitectureModal();
+                }}
+                className="w-full p-2.5 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+              >
+                <Layers className="w-4 h-4 text-indigo-400" />
+                معماری جامع Tavana Central Core
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenRegisterBusiness();
+                }}
+                className="w-full p-2.5 bg-indigo-600 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2"
+              >
+                <PlusCircle className="w-4 h-4" />
+                ثبت ویترین کسب‌وکار (+۱۵۰ XP)
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};

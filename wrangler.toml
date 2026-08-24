@@ -1,0 +1,23 @@
+name = "tavana-city"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+bucket = "./dist"
+
+[build]
+command = "npm run build"
+watch_dir = "src"
+
+[[routes]]
+pattern = "/*"
+zone_name = ""
+
+# Cloudflare Pages / Workers headers configuration
+[[headers]]
+pattern = "/*"
+[headers.values]
+"X-Content-Type-Options" = "nosniff"
+"X-Frame-Options" = "SAMEORIGIN"
+"Referrer-Policy" = "strict-origin-when-cross-origin"
+"Permissions-Policy" = "microphone=(self), camera=(self)"

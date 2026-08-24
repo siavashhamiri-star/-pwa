@@ -1,0 +1,6 @@
+{
+  "name": "Tavana City - شهر توانا",
+  "description": "پلتفرم جامع و زیست‌بوم دسترسی‌پذیر کسب‌وکارها، خدمات و جامعه توان‌یابان (Tavana Central Core & PWA)",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
