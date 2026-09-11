@@ -65,7 +65,7 @@ export const RoomsPage: React.FC = () => {
             <span className="text-base">🏛️</span>
             <span>اتاق جوامع اصناف</span>
             <span className="text-amber-400">•</span>
-            <span className="text-indigo-900">اکوسیستم آفرینا تولنا سیتی (توانا سیتی)</span>
+            <span className="text-indigo-900">اکوسیستم آفرینا توانا سیتی (TavanaCity)</span>
           </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-black text-slate-900">

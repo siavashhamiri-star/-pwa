@@ -53,13 +53,13 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="relative z-10 max-w-3xl space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-indigo-200 text-xs font-bold border border-white/20 backdrop-blur-md">
             <Accessibility className="w-4 h-4 text-amber-400" />
-            <span>اتاق جوامع اصناف • اکوسیستم آفرینا تولنا سیتی (توانا سیتی)</span>
+            <span>اتاق جوامع اصناف • اکوسیستم آفرینا توانا سیتی (TavanaCity)</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black leading-tight">
             اتاق جوامع اصناف
             <span className="block text-indigo-300 text-lg sm:text-2xl font-bold mt-2">
-              اکوسیستم آفرینا تولنا سیتی | ویترین مهارت، اصناف و خدمات دسترس‌پذیر
+              اکوسیستم آفرینا توانا سیتی (TavanaCity) | ویترین مهارت، اصناف و خدمات دسترس‌پذیر
             </span>
           </h1>
 

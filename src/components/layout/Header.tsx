@@ -73,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
             <span className="text-slate-400 text-[11px]">•</span>
             <span className="text-indigo-200 font-bold text-[11px] sm:text-xs">
-              اکوسیستم آفرینا تولنا سیتی (توانا سیتی)
+              اکوسیستم آفرینا توانا سیتی (TavanaCity)
             </span>
             <span className="hidden md:inline text-slate-400 text-[11px]">•</span>
             <span className="hidden md:inline text-slate-300 text-[11px]">
@@ -115,7 +115,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-500 font-medium hidden sm:block">
-                  اکوسیستم آفرینا تولنا سیتی (توانا سیتی)
+                  اکوسیستم آفرینا توانا سیتی (TavanaCity)
                 </p>
               </div>
             </button>

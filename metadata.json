@@ -1,6 +1,6 @@
 {
   "name": "Tavana City - شهر توانا",
-  "description": "اتاق جوامع اصناف و اکوسیستم آفرینا تولنا سیتی (توانا سیتی) - زیست‌بوم جامع کسب‌وکارها، تشکل‌های صنفی و کارآفرینان دسترس‌پذیر",
+  "description": "اتاق جوامع اصناف و اکوسیستم آفرینا توانا سیتی (TavanaCity) - زیست‌بوم جامع کسب‌وکارها، تشکل‌های صنفی و کارآفرینان دسترس‌پذیر",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
