@@ -1,6 +1,6 @@
 {
   "name": "Tavana City - شهر توانا",
-  "description": "پلتفرم جامع و زیست‌بوم دسترسی‌پذیر کسب‌وکارها، خدمات و جامعه توان‌یابان (Tavana Central Core & PWA)",
+  "description": "اتاق جوامع اصناف و اکوسیستم آفرینا تولنا سیتی (توانا سیتی) - زیست‌بوم جامع کسب‌وکارها، تشکل‌های صنفی و کارآفرینان دسترس‌پذیر",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

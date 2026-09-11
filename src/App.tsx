@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import { TavanaCityProvider } from './context/TavanaCityContext';
 import { AccessibilityProvider } from './context/AccessibilityContext';
@@ -19,9 +20,11 @@ import { AuthModal } from './features/auth/AuthModal';
 import { TermsDisclaimerModal } from './components/modals/TermsDisclaimerModal';
 import { ArchitectureModal } from './components/modals/ArchitectureModal';
 import { AutomationModal } from './components/modals/AutomationModal';
+import { AccessibilityPassportModal } from './components/modals/AccessibilityPassportModal';
 import { BusinessProfile } from './types';
 
 function MainAppShell() {
+  const { isRtl } = useLanguage();
   const [activeTab, setActiveTab] = useState<string>('home');
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessProfile | null>(null);
   const [isRegisterBusinessOpen, setIsRegisterBusinessOpen] = useState<boolean>(false);
@@ -29,10 +32,14 @@ function MainAppShell() {
   const [isAdminModalOpen, setIsAdminModalOpen] = useState<boolean>(false);
   const [isArchitectureModalOpen, setIsArchitectureModalOpen] = useState<boolean>(false);
   const [isAutomationModalOpen, setIsAutomationModalOpen] = useState<boolean>(false);
+  const [isAccessibilityPassportOpen, setIsAccessibilityPassportOpen] = useState<boolean>(false);
   const [isDisclaimerModalOpen, setIsDisclaimerModalOpen] = useState<boolean>(false);
 
   return (
-    <div className="min-h-screen bg-slate-100/70 text-slate-800 flex flex-col font-sans selection:bg-indigo-500 selection:text-white" dir="rtl">
+    <div
+      className="min-h-screen bg-slate-100/70 text-slate-800 flex flex-col font-sans selection:bg-indigo-500 selection:text-white"
+      dir={isRtl ? 'rtl' : 'ltr'}
+    >
       {/* Accessibility Live Announcers */}
       <ScreenReaderAnnouncer />
 
@@ -45,6 +52,7 @@ function MainAppShell() {
         onOpenAdminModal={() => setIsAdminModalOpen(true)}
         onOpenArchitectureModal={() => setIsArchitectureModalOpen(true)}
         onOpenAutomationModal={() => setIsAutomationModalOpen(true)}
+        onOpenAccessibilityPassport={() => setIsAccessibilityPassportOpen(true)}
       />
 
       {/* Main Page Body */}
@@ -90,9 +98,14 @@ function MainAppShell() {
       />
 
       {/* Floating Accessibility Controls */}
-      <AccessibilityToolbar />
+      <AccessibilityToolbar onOpenPassportModal={() => setIsAccessibilityPassportOpen(true)} />
 
       {/* Global Modals */}
+      <AccessibilityPassportModal
+        isOpen={isAccessibilityPassportOpen}
+        onClose={() => setIsAccessibilityPassportOpen(false)}
+      />
+
       <BusinessShowcaseModal
         business={selectedBusiness}
         isOpen={!!selectedBusiness}
@@ -134,12 +147,14 @@ function MainAppShell() {
 
 export default function App() {
   return (
-    <AccessibilityProvider>
-      <AuthProvider>
-        <TavanaCityProvider>
-          <MainAppShell />
-        </TavanaCityProvider>
-      </AuthProvider>
-    </AccessibilityProvider>
+    <LanguageProvider>
+      <AccessibilityProvider>
+        <AuthProvider>
+          <TavanaCityProvider>
+            <MainAppShell />
+          </TavanaCityProvider>
+        </AuthProvider>
+      </AccessibilityProvider>
+    </LanguageProvider>
   );
 }

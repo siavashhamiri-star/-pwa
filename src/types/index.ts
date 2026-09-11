@@ -269,17 +269,50 @@ export interface OfflineSyncItem {
 
 export type ContrastMode = 'NORMAL' | 'HIGH_CONTRAST_LIGHT' | 'DARK' | 'YELLOW_ON_BLACK';
 
+export type ColorBlindMode = 'NONE' | 'DEUTERANOPIA' | 'PROTANOPIA' | 'TRITANOPIA' | 'MONOCHROME';
+
+export type AccessibilityPreset =
+  | 'CUSTOM'
+  | 'BLIND'
+  | 'LOW_VISION'
+  | 'DEAF'
+  | 'HARD_OF_HEARING'
+  | 'MOTOR_LIMITED'
+  | 'COGNITIVE_DYSLEXIA'
+  | 'SENIOR';
+
 export interface AccessibilitySettings {
-  fontScale: number; // 0.9 to 1.5
+  // Visual
+  fontScale: number; // 0.85 to 1.6
   lineHeight: number;
   letterSpacing: number;
   contrastMode: ContrastMode;
+  colorBlindMode: ColorBlindMode;
   screenReaderVoiceEnabled: boolean;
   talkBackSimulatorEnabled: boolean;
-  soundEffectsEnabled: boolean;
   readingGuideEnabled: boolean;
+  screenMagnifier: boolean;
+
+  // Auditory
+  soundEffectsEnabled: boolean;
+  visualCaptionsEnabled: boolean;
+  visualAlertFlashes: boolean;
+  signLanguageAssistance: boolean;
+
+  // Motor / Mobility
+  largeTouchTargets: boolean;
+  handTremorFilter: boolean;
+  oneHandedMode: 'NONE' | 'LEFT' | 'RIGHT';
+  keyboardNavigationAssistance: boolean;
+  switchAccessEnabled: boolean;
+
+  // Cognitive / Focus
   dyslexiaFontEnabled: boolean;
   reducedMotion: boolean;
   simplifiedTextMode: boolean;
+  distractionFreeMode: boolean;
+
+  // Passport Preset
+  activePreset: AccessibilityPreset;
 }
 

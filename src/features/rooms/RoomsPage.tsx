@@ -61,16 +61,22 @@ export const RoomsPage: React.FC = () => {
       {/* Top Banner */}
       <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-200 text-xs font-black mb-2.5">
+            <span className="text-base">🏛️</span>
+            <span>اتاق جوامع اصناف</span>
+            <span className="text-amber-400">•</span>
+            <span className="text-indigo-900">اکوسیستم آفرینا تولنا سیتی (توانا سیتی)</span>
+          </div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-black text-slate-900">
-              اتاق‌های گفتگوی زنده و هم‌افزایی توانمندان
+              اتاق جوامع اصناف و تالارهای هم‌افزایی توانمندان
             </h1>
             <span className="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded-full border border-emerald-200">
               زنده و دسترس‌پذیر
             </span>
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            اشتراک تجربیات شغلی، پرسش و پاسخ پیرامون دسترس‌پذیری و ارتباط مستقیم با همتایان
+            اشتراک تجربیات شغلی، تعامل مستقیم با تشکل‌های صنفی، پرسش و پاسخ پیرامون دسترس‌پذیری و ارتباط با همتایان در اکوسیستم آفرینا
           </p>
         </div>
 

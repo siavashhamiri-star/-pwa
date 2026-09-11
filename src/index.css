@@ -27,6 +27,16 @@
   border-color: #ffff00 !important;
 }
 
+.a11y-contrast-high-light {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+.a11y-contrast-high-light * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
 .a11y-contrast-dark {
   background-color: #090d16 !important;
   color: #f1f5f9 !important;
@@ -47,6 +57,80 @@
 .a11y-contrast-dark .text-slate-600,
 .a11y-contrast-dark .text-slate-500 {
   color: #cbd5e1 !important;
+}
+
+/* Color Blindness Filter Simulations */
+.a11y-deuteranopia {
+  filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="deuteranopia"><feColorMatrix type="matrix" values="0.625 0.375 0 0 0  0.7 0.3 0 0 0  0 0.3 0.7 0 0  0 0 0 1 0"/></filter></svg>#deuteranopia');
+}
+.a11y-protanopia {
+  filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="protanopia"><feColorMatrix type="matrix" values="0.567 0.433 0 0 0  0.558 0.442 0 0 0  0 0.242 0.758 0 0  0 0 0 1 0"/></filter></svg>#protanopia');
+}
+.a11y-tritanopia {
+  filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="tritanopia"><feColorMatrix type="matrix" values="0.95 0.05 0 0 0  0 0.433 0.567 0 0  0 0.475 0.525 0 0  0 0 0 1 0"/></filter></svg>#tritanopia');
+}
+.a11y-monochrome {
+  filter: grayscale(100%) contrast(120%);
+}
+
+/* Dyslexia-Friendly High Legibility */
+.a11y-dyslexia-font {
+  font-family: system-ui, -apple-system, sans-serif !important;
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.16em !important;
+  line-height: 2 !important;
+}
+.a11y-dyslexia-font p,
+.a11y-dyslexia-font span,
+.a11y-dyslexia-font div {
+  letter-spacing: 0.08em !important;
+}
+
+/* Motor / Physical: Large Touch Targets (Minimum 48px) */
+.a11y-large-targets button,
+.a11y-large-targets a,
+.a11y-large-targets input,
+.a11y-large-targets select {
+  min-height: 48px !important;
+  min-width: 48px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+/* Motor: One-Handed Ergonomic Alignment */
+.a11y-one-handed-left {
+  max-width: 85vw !important;
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+.a11y-one-handed-right {
+  max-width: 85vw !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* Auditory: Visual Alert Flash */
+@keyframes a11yVisualAlert {
+  0% { box-shadow: inset 0 0 0 0px #6366f1; }
+  50% { box-shadow: inset 0 0 0 12px #f59e0b; }
+  100% { box-shadow: inset 0 0 0 0px #6366f1; }
+}
+.a11y-flashing-alert {
+  animation: a11yVisualAlert 0.7s ease-in-out;
+}
+
+/* Cognitive: Distraction Free Focus Mode */
+.a11y-focus-mode aside,
+.a11y-focus-mode .decorative-banner,
+.a11y-focus-mode .animate-pulse {
+  opacity: 0.25 !important;
+  filter: blur(1px);
+  transition: opacity 0.2s ease;
+}
+.a11y-focus-mode main:hover aside,
+.a11y-focus-mode *:focus-within {
+  opacity: 1 !important;
+  filter: none !important;
 }
 
 /* Focus Visible Enhancements for Screen Readers & Keyboard Nav */

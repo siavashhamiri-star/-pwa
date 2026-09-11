@@ -240,6 +240,19 @@ export const INITIAL_BUSINESSES: BusinessProfile[] = [
 
 export const INITIAL_ROOMS: CommunityRoom[] = [
   {
+    id: 'room-guilds',
+    title: 'اتاق جوامع اصناف (اکوسیستم آفرینا تولنا سیتی)',
+    description: 'هم‌اندیشی تشکل‌های صنفی، اتحادیه‌ها، اتاق اصناف و توسعه بازار کسب‌وکارهای دسترس‌پذیر',
+    category: 'اتاق اصناف و جوامع',
+    roomType: 'COMMERCE_BUSINESS',
+    icon: 'Building2',
+    activeUsersCount: 64,
+    messagesCount: 380,
+    isAccessibleFocus: true,
+    isModerated: true,
+    rules: ['احترام به اخلاق حرفه‌ای اصناف', 'تبادل تجربیات کسب‌وکار و همکاری‌های چندجانبه'],
+  },
+  {
     id: 'room-health',
     title: 'اتاق سلامت و پزشکان حامی (Health & Medical)',
     description: 'مشاوره‌های عمومی سلامت، ارزیابی مراکز درمانی دسترس‌پذیر و تجهیزات توانبخشی',
@@ -346,6 +359,16 @@ export const INITIAL_ROOMS: CommunityRoom[] = [
 ];
 
 export const INITIAL_MESSAGES: ChatMessage[] = [
+  {
+    id: 'msg-guild-1',
+    roomId: 'room-guilds',
+    senderId: 'user-admin',
+    senderName: 'اتاق جوامع اصناف (اکوسیستم آفرینا)',
+    senderAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+    senderRole: 'ADMIN',
+    text: 'به تالار رسمی اتاق جوامع اصناف در اکوسیستم آفرینا تولنا سیتی خوش آمدید! در این فضا کلیه اتحادیه‌ها، صنوف و کارآفرینان دارای معلولیت می‌توانند همکاری‌های صنفی، تسهیلات و فرصت‌های تجاری متقابل را تبادل نمایند.',
+    createdAt: '2025-05-12T08:00:00.000Z',
+  },
   {
     id: 'msg-1',
     roomId: 'room-crafts',

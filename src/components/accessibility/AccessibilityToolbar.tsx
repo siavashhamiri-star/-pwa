@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import {
   Accessibility,
   Volume2,
-  VolumeX,
   Eye,
-  Sun,
-  Moon,
   Type,
   ZoomIn,
   ZoomOut,
@@ -13,13 +10,23 @@ import {
   BookOpen,
   Sparkles,
   Smartphone,
-  Check,
+  Ear,
+  Hand,
+  Brain,
+  Sliders,
   X,
+  ExternalLink,
 } from 'lucide-react';
 import { useAccessibility } from '../../context/AccessibilityContext';
 import { toPersianDigits } from '../../utils/persian';
 
-export const AccessibilityToolbar: React.FC = () => {
+interface AccessibilityToolbarProps {
+  onOpenPassportModal?: () => void;
+}
+
+export const AccessibilityToolbar: React.FC<AccessibilityToolbarProps> = ({
+  onOpenPassportModal,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const {
     settings,
@@ -30,6 +37,9 @@ export const AccessibilityToolbar: React.FC = () => {
     toggleReadingGuide,
     toggleDyslexiaFont,
     toggleReducedMotion,
+    toggleVisualCaptions,
+    toggleLargeTouchTargets,
+    applyPreset,
     resetSettings,
     announce,
   } = useAccessibility();
@@ -41,7 +51,7 @@ export const AccessibilityToolbar: React.FC = () => {
         id="btn-accessibility-toolbar"
         onClick={() => {
           setIsOpen(!isOpen);
-          announce(isOpen ? 'منوی دسترسی‌پذیری بسته شد' : 'منوی تنظیمات دسترسی‌پذیری باز شد');
+          announce(isOpen ? 'منوی دسترسی‌پذیری بسته شد' : 'منوی سریع دسترسی‌پذیری باز شد');
         }}
         aria-expanded={isOpen}
         aria-label="تنظیمات دسترسی‌پذیری و صفحه‌خوان شهر توانا"
@@ -57,75 +67,121 @@ export const AccessibilityToolbar: React.FC = () => {
           id="popover-a11y-settings"
           role="region"
           aria-label="پنل امکانات دسترس‌پذیری"
-          className="mt-3 w-84 sm:w-96 p-5 bg-white text-slate-900 rounded-3xl shadow-2xl border-2 border-indigo-500/30 space-y-4 max-h-[80vh] overflow-y-auto"
+          className="mt-3 w-88 sm:w-96 p-4 sm:p-5 bg-white text-slate-900 rounded-3xl shadow-2xl border-2 border-indigo-500/30 space-y-3.5 max-h-[82vh] overflow-y-auto animate-in fade-in zoom-in-95"
         >
+          {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div className="flex items-center gap-2">
               <div className="p-2 bg-indigo-100 text-indigo-700 rounded-xl">
                 <Accessibility className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-slate-900">پنل استانداردهای دسترسی‌پذیری</h3>
-                <p className="text-[11px] text-slate-500">منطبق بر استانداردهای WCAG 2.1 و TalkBack</p>
+                <h3 className="font-bold text-sm text-slate-900">تنظیمات سریع دسترس‌پذیری</h3>
+                <p className="text-[11px] text-slate-500">WCAG 2.1 AAA و پشتیبانی چندمعلولیتی</p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-slate-400 hover:text-slate-700 p-1 rounded-lg"
+              className="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg cursor-pointer"
               aria-label="بستن منو"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Screen Reader & Speech Voice */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <Volume2 className="w-4 h-4 text-indigo-600" />
-                قرائت‌گر صوتی هوشمند (Screen Reader)
+          {/* Direct Passport Modal CTA */}
+          {onOpenPassportModal && (
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                onOpenPassportModal();
+                announce('باز شدن گذرنامه جامع دسترسی‌پذیری توانا');
+              }}
+              className="w-full py-2.5 px-3 bg-gradient-to-r from-indigo-700 to-purple-700 hover:from-indigo-800 hover:to-purple-800 text-white rounded-2xl font-black text-xs flex items-center justify-between shadow-xs cursor-pointer border border-indigo-400/30"
+            >
+              <span className="flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-amber-300" />
+                <span>گذرنامه کامل و تنظیمات تفصیلی معلولین</span>
               </span>
-              <button
-                onClick={toggleScreenReaderVoice}
-                className={`px-3 py-1 text-xs font-bold rounded-xl transition-colors cursor-pointer ${
-                  settings.screenReaderVoiceEnabled
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {settings.screenReaderVoiceEnabled ? 'فعال' : 'غیرفعال'}
-              </button>
-            </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              روخوانی صوتی خودکار متون و اعلان‌های مهم با کلیک روی هر بخش
-            </p>
-          </div>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </button>
+          )}
 
-          {/* TalkBack & Android A11y Simulator */}
-          <div className="space-y-2 pt-2 border-t border-slate-100">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <Smartphone className="w-4 h-4 text-indigo-600" />
-                شبیه‌ساز تالک‌بک اندروید (TalkBack)
-              </span>
+          {/* Quick Presets Carousel */}
+          <div className="space-y-1.5">
+            <span className="text-[11px] font-bold text-slate-700">پروفایل‌های سریع ۱-کلیکی:</span>
+            <div className="grid grid-cols-3 gap-1.5 text-[11px] font-bold">
               <button
-                onClick={toggleTalkBackSimulator}
-                className={`px-3 py-1 text-xs font-bold rounded-xl transition-colors cursor-pointer ${
-                  settings.talkBackSimulatorEnabled
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                onClick={() => applyPreset('BLIND')}
+                className={`p-2 rounded-xl border text-center transition-colors cursor-pointer flex flex-col items-center gap-1 ${
+                  settings.activePreset === 'BLIND'
+                    ? 'border-yellow-500 bg-black text-yellow-300'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
                 }`}
               >
-                {settings.talkBackSimulatorEnabled ? 'روشن' : 'خاموش'}
+                <Eye className="w-3.5 h-3.5" />
+                <span>نابینایان</span>
+              </button>
+              <button
+                onClick={() => applyPreset('LOW_VISION')}
+                className={`p-2 rounded-xl border text-center transition-colors cursor-pointer flex flex-col items-center gap-1 ${
+                  settings.activePreset === 'LOW_VISION'
+                    ? 'border-indigo-600 bg-indigo-50 text-indigo-900 font-black'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <ZoomIn className="w-3.5 h-3.5" />
+                <span>کم‌بینایان</span>
+              </button>
+              <button
+                onClick={() => applyPreset('DEAF')}
+                className={`p-2 rounded-xl border text-center transition-colors cursor-pointer flex flex-col items-center gap-1 ${
+                  settings.activePreset === 'DEAF'
+                    ? 'border-emerald-600 bg-emerald-50 text-emerald-900 font-black'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <Ear className="w-3.5 h-3.5" />
+                <span>ناشنوایان</span>
+              </button>
+              <button
+                onClick={() => applyPreset('MOTOR_LIMITED')}
+                className={`p-2 rounded-xl border text-center transition-colors cursor-pointer flex flex-col items-center gap-1 ${
+                  settings.activePreset === 'MOTOR_LIMITED'
+                    ? 'border-rose-600 bg-rose-50 text-rose-900 font-black'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <Hand className="w-3.5 h-3.5" />
+                <span>حرکتی</span>
+              </button>
+              <button
+                onClick={() => applyPreset('COGNITIVE_DYSLEXIA')}
+                className={`p-2 rounded-xl border text-center transition-colors cursor-pointer flex flex-col items-center gap-1 ${
+                  settings.activePreset === 'COGNITIVE_DYSLEXIA'
+                    ? 'border-purple-600 bg-purple-50 text-purple-900 font-black'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <Brain className="w-3.5 h-3.5" />
+                <span>خوانش‌پریشی</span>
+              </button>
+              <button
+                onClick={() => applyPreset('SENIOR')}
+                className={`p-2 rounded-xl border text-center transition-colors cursor-pointer flex flex-col items-center gap-1 ${
+                  settings.activePreset === 'SENIOR'
+                    ? 'border-amber-600 bg-amber-50 text-amber-900 font-black'
+                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                }`}
+              >
+                <Accessibility className="w-3.5 h-3.5" />
+                <span>سالمندان</span>
               </button>
             </div>
-            <p className="text-[11px] text-slate-500 leading-relaxed">
-              شبیه‌سازی بازخوردهای صوتی و کادر فوکوس TalkBack اپلیکیشن نیتیو اندروید توانا
-            </p>
           </div>
 
           {/* Font Scaling */}
-          <div className="space-y-2 pt-2 border-t border-slate-100">
+          <div className="space-y-1.5 pt-2 border-t border-slate-100">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                 <Type className="w-4 h-4 text-indigo-600" />
@@ -138,7 +194,7 @@ export const AccessibilityToolbar: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setFontScale(settings.fontScale - 0.1)}
-                disabled={settings.fontScale <= 0.9}
+                disabled={settings.fontScale <= 0.85}
                 className="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 font-bold rounded-xl flex items-center justify-center gap-1 text-xs cursor-pointer"
               >
                 <ZoomOut className="w-3.5 h-3.5" />
@@ -152,7 +208,7 @@ export const AccessibilityToolbar: React.FC = () => {
               </button>
               <button
                 onClick={() => setFontScale(settings.fontScale + 0.1)}
-                disabled={settings.fontScale >= 1.5}
+                disabled={settings.fontScale >= 1.6}
                 className="flex-1 py-1.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-40 text-slate-800 font-bold rounded-xl flex items-center justify-center gap-1 text-xs cursor-pointer"
               >
                 <ZoomIn className="w-3.5 h-3.5" />
@@ -162,10 +218,10 @@ export const AccessibilityToolbar: React.FC = () => {
           </div>
 
           {/* High Contrast Themes */}
-          <div className="space-y-2 pt-2 border-t border-slate-100">
+          <div className="space-y-1.5 pt-2 border-t border-slate-100">
             <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
               <Eye className="w-4 h-4 text-indigo-600" />
-              حالت‌های کنتراست و خوانایی:
+              کنتراست و روشنایی:
             </span>
             <div className="grid grid-cols-3 gap-2 text-xs font-bold">
               <button
@@ -176,7 +232,7 @@ export const AccessibilityToolbar: React.FC = () => {
                     : 'border-slate-200 hover:bg-slate-50 text-slate-700'
                 }`}
               >
-                استاندارد
+                عادی
               </button>
               <button
                 onClick={() => setContrastMode('DARK')}
@@ -186,7 +242,7 @@ export const AccessibilityToolbar: React.FC = () => {
                     : 'border-slate-200 bg-slate-900 text-slate-200'
                 }`}
               >
-                تیره (Dark)
+                تیره
               </button>
               <button
                 onClick={() => setContrastMode('YELLOW_ON_BLACK')}
@@ -196,17 +252,68 @@ export const AccessibilityToolbar: React.FC = () => {
                     : 'border-slate-700 bg-black text-yellow-400'
                 }`}
               >
-                زرد روی مشکی
+                زرد/مشکی
               </button>
             </div>
           </div>
 
-          {/* Reading Ruler & Reduced Motion */}
+          {/* Toggle Screen Reader & TalkBack */}
           <div className="space-y-2 pt-2 border-t border-slate-100">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <Volume2 className="w-4 h-4 text-indigo-600" />
+                قرائت‌گر صوتی (TTS)
+              </span>
+              <button
+                onClick={toggleScreenReaderVoice}
+                className={`px-3 py-1 text-xs font-bold rounded-xl transition-colors cursor-pointer ${
+                  settings.screenReaderVoiceEnabled
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {settings.screenReaderVoiceEnabled ? 'روشن' : 'خاموش'}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <Ear className="w-4 h-4 text-indigo-600" />
+                زیرنویس همزمان گفتار
+              </span>
+              <button
+                onClick={toggleVisualCaptions}
+                className={`px-3 py-1 text-xs font-bold rounded-xl transition-colors cursor-pointer ${
+                  settings.visualCaptionsEnabled
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {settings.visualCaptionsEnabled ? 'روشن' : 'خاموش'}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <Hand className="w-4 h-4 text-indigo-600" />
+                کلیدهای لمسی بزرگ (۴۸px)
+              </span>
+              <button
+                onClick={toggleLargeTouchTargets}
+                className={`px-3 py-1 text-xs font-bold rounded-xl transition-colors cursor-pointer ${
+                  settings.largeTouchTargets
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+              >
+                {settings.largeTouchTargets ? 'روشن' : 'خاموش'}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                 <BookOpen className="w-4 h-4 text-indigo-600" />
-                خط‌کش راهنمای تمرکز مطالعه
+                خط‌کش راهنمای مطالعه
               </span>
               <button
                 onClick={toggleReadingGuide}
@@ -216,24 +323,7 @@ export const AccessibilityToolbar: React.FC = () => {
                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`}
               >
-                {settings.readingGuideEnabled ? 'فعال' : 'غیرفعال'}
-              </button>
-            </div>
-
-            <div className="flex items-center justify-between pt-1">
-              <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
-                کاهش حرکات و پویانمایی
-              </span>
-              <button
-                onClick={toggleReducedMotion}
-                className={`px-3 py-1 text-xs font-bold rounded-xl transition-colors cursor-pointer ${
-                  settings.reducedMotion
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {settings.reducedMotion ? 'فعال' : 'غیرفعال'}
+                {settings.readingGuideEnabled ? 'روشن' : 'خاموش'}
               </button>
             </div>
           </div>
@@ -242,7 +332,7 @@ export const AccessibilityToolbar: React.FC = () => {
           <div className="pt-2 border-t border-slate-100 flex justify-end">
             <button
               onClick={resetSettings}
-              className="text-xs text-rose-600 hover:text-rose-700 font-bold flex items-center gap-1 p-1"
+              className="text-xs text-rose-600 hover:text-rose-700 font-bold flex items-center gap-1 p-1 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               بازنشانی کلیه تنظیمات

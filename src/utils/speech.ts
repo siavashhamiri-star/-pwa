@@ -57,25 +57,42 @@ export function playEarcon(type: 'FOCUS' | 'SUCCESS' | 'ALERT' | 'CLICK') {
   }
 }
 
-// Text-to-Speech Engine
-export function speakText(text: string, onEnd?: () => void) {
+// Text-to-Speech Engine with Multi-Language Support
+export function speakText(
+  text: string,
+  langOrOnEnd?: string | (() => void),
+  onEndCallback?: () => void
+) {
   if (!('speechSynthesis' in window)) {
-    if (onEnd) onEnd();
+    if (typeof langOrOnEnd === 'function') langOrOnEnd();
+    else if (onEndCallback) onEndCallback();
     return;
+  }
+
+  let langCode = 'fa-IR';
+  let onEnd: (() => void) | undefined = onEndCallback;
+
+  if (typeof langOrOnEnd === 'function') {
+    onEnd = langOrOnEnd;
+  } else if (typeof langOrOnEnd === 'string' && langOrOnEnd.trim().length > 0) {
+    langCode = langOrOnEnd;
   }
 
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'fa-IR';
+  utterance.lang = langCode;
   utterance.rate = 1.0;
   utterance.pitch = 1.0;
 
-  // Try to find Persian voice or fallback to default
+  // Try to find matching voice for language code or fallback
   const voices = window.speechSynthesis.getVoices();
-  const faVoice = voices.find((v) => v.lang.includes('fa') || v.lang.includes('ar') || v.name.includes('Persian'));
-  if (faVoice) {
-    utterance.voice = faVoice;
+  const langPrefix = langCode.split('-')[0].toLowerCase();
+  const matchedVoice = voices.find(
+    (v) => v.lang.toLowerCase().includes(langPrefix) || v.lang.toLowerCase() === langCode.toLowerCase()
+  );
+  if (matchedVoice) {
+    utterance.voice = matchedVoice;
   }
 
   utterance.onend = () => {

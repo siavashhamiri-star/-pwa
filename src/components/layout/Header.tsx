@@ -16,10 +16,12 @@ import {
   X,
   Volume2,
   Zap,
+  Globe,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTavanaCity } from '../../context/TavanaCityContext';
 import { useAccessibility } from '../../context/AccessibilityContext';
+import { useLanguage } from '../../context/LanguageContext';
 import { LeagueBadge } from '../common/Badge';
 import { toPersianDigits, formatPersianNumber } from '../../utils/persian';
 
@@ -31,6 +33,7 @@ interface HeaderProps {
   onOpenAdminModal: () => void;
   onOpenArchitectureModal: () => void;
   onOpenAutomationModal: () => void;
+  onOpenAccessibilityPassport?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -41,23 +44,52 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAdminModal,
   onOpenArchitectureModal,
   onOpenAutomationModal,
+  onOpenAccessibilityPassport,
 }) => {
   const { currentUser, logout } = useAuth();
   const { searchQuery, setSearchQuery } = useTavanaCity();
   const { announce } = useAccessibility();
+  const { language, setLanguage, t, info, supportedLanguages } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
 
   const navItems = [
-    { id: 'home', label: 'صفحه اصلی', icon: Store },
-    { id: 'businesses', label: 'ویترین کسب‌وکارها', icon: Store },
-    { id: 'rooms', label: 'اتاق‌های هم‌افزایی', icon: Users },
-    { id: 'leagues', label: 'لیگ توانمندان', icon: Award },
-    { id: 'referrals', label: 'باشگاه دعوت', icon: Share2 },
-    { id: 'dashboard', label: 'داشبورد من', icon: LayoutDashboard },
+    { id: 'home', label: t.navHome, icon: Store },
+    { id: 'businesses', label: t.navBusinesses, icon: Store },
+    { id: 'rooms', label: t.navRooms, icon: Users },
+    { id: 'leagues', label: t.navLeagues, icon: Award },
+    { id: 'referrals', label: t.navReferral, icon: Share2 },
+    { id: 'dashboard', label: t.navDashboard, icon: LayoutDashboard },
   ];
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-2xs">
+      {/* Official Top Institutional Bar */}
+      <div className="bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-950 text-white border-b border-indigo-500/20 py-1.5 px-4 sm:px-6 text-xs shadow-xs">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none py-0.5">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-amber-400/20 text-amber-300 font-black text-[11px] border border-amber-400/40">
+              🏛️ اتاق جوامع اصناف
+            </span>
+            <span className="text-slate-400 text-[11px]">•</span>
+            <span className="text-indigo-200 font-bold text-[11px] sm:text-xs">
+              اکوسیستم آفرینا تولنا سیتی (توانا سیتی)
+            </span>
+            <span className="hidden md:inline text-slate-400 text-[11px]">•</span>
+            <span className="hidden md:inline text-slate-300 text-[11px]">
+              زیست‌بوم جامع کسب‌وکارها، تشکل‌های صنفی و کارآفرینان دسترس‌پذیر
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 text-[11px] font-bold text-indigo-200 shrink-0">
+            <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px]">
+              ✓ سامانه رسمی اصناف توانا
+            </span>
+            <span className="text-[10px] text-slate-400 font-mono">WCAG 2.1 AAA</span>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18 gap-4">
           {/* Logo and Brand */}
@@ -65,25 +97,25 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               onClick={() => {
                 setActiveTab('home');
-                announce('هدایت به صفحه اصلی شهر توانا');
+                announce('هدایت به صفحه اصلی اتاق جوامع اصناف - اکوسیستم آفرینا توانا سیتی');
               }}
               className="flex items-center gap-3 text-right group cursor-pointer focus:ring-2 focus:ring-indigo-500 rounded-2xl p-1"
-              aria-label="صفحه اصلی شهر توانا"
+              aria-label="صفحه اصلی اتاق جوامع اصناف - اکوسیستم آفرینا توانا سیتی"
             >
               <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md shadow-indigo-200 group-hover:scale-105 transition-transform">
                 <Accessibility className="w-6 h-6" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="font-black text-lg sm:text-xl text-slate-900 tracking-tight">
-                    شهر توانا
+                  <span className="font-black text-base sm:text-lg text-slate-900 tracking-tight">
+                    اتاق جوامع اصناف
                   </span>
                   <span className="text-[10px] px-1.5 py-0.5 bg-indigo-50 text-indigo-700 font-bold rounded-md border border-indigo-100">
-                    PWA / Web Core
+                    اکوسیستم آفرینا
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-500 font-medium hidden sm:block">
-                  زیست‌بوم جامع دسترسی‌پذیر توان‌آفرینان
+                  اکوسیستم آفرینا تولنا سیتی (توانا سیتی)
                 </p>
               </div>
             </button>
@@ -117,6 +149,20 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Actions & User State */}
           <div className="flex items-center gap-2">
+            {/* Accessibility Passport Hub Button */}
+            <button
+              onClick={() => {
+                onOpenAccessibilityPassport?.();
+                announce('باز شدن گذرنامه جامع دسترسی‌پذیری توانا');
+              }}
+              aria-label="گذرنامه جامع دسترسی‌پذیری و تنظیمات چندمعلولیتی"
+              className="flex items-center gap-1.5 px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-black rounded-xl border border-indigo-200 shadow-2xs cursor-pointer transition-colors"
+            >
+              <Accessibility className="w-4 h-4 text-indigo-600 animate-pulse" />
+              <span className="hidden md:inline">گذرنامه دسترسی‌پذیری</span>
+              <span className="px-1.5 py-0.5 text-[9px] rounded-md bg-indigo-600 text-white font-mono leading-none">AAA</span>
+            </button>
+
             {/* Automation Hub Button */}
             <button
               onClick={() => {
@@ -169,6 +215,47 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="hidden xl:inline">مرکز نظارت</span>
               </button>
             )}
+
+            {/* Language Selector Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                className="flex items-center gap-1.5 px-2.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl cursor-pointer border border-slate-200 transition-colors"
+                aria-label={t.languageSelect}
+                title={t.languageSelect}
+              >
+                <Globe className="w-3.5 h-3.5 text-indigo-600" />
+                <span className="text-sm">{info.flag}</span>
+                <span className="hidden xl:inline font-semibold">{info.nativeName}</span>
+              </button>
+
+              {isLangMenuOpen && (
+                <div className="absolute top-full mt-1.5 ltr:right-0 rtl:left-0 w-44 bg-white rounded-2xl shadow-xl border border-slate-200 py-1.5 z-50 animate-in fade-in zoom-in-95">
+                  <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                    {t.languageSelect}
+                  </div>
+                  {supportedLanguages.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLanguage(l.code);
+                        setIsLangMenuOpen(false);
+                        announce(`زبان تغییر یافت به ${l.nativeName}`);
+                      }}
+                      className={`w-full px-3 py-2 text-xs font-bold flex items-center justify-between hover:bg-indigo-50 transition-colors cursor-pointer ${
+                        language === l.code ? 'text-indigo-700 bg-indigo-50/70 font-black' : 'text-slate-700'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-base">{l.flag}</span>
+                        <span>{l.nativeName}</span>
+                      </span>
+                      {language === l.code && <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* User Profile / Switcher */}
             {currentUser ? (
@@ -243,6 +330,43 @@ export const Header: React.FC<HeaderProps> = ({
             </nav>
 
             <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+              {/* Mobile Language Switcher */}
+              <div className="bg-slate-50 p-2 rounded-xl">
+                <div className="text-[11px] font-bold text-slate-500 mb-1.5 flex items-center gap-1">
+                  <Globe className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>{t.languageSelect}</span>
+                </div>
+                <div className="grid grid-cols-4 gap-1">
+                  {supportedLanguages.map((l) => (
+                    <button
+                      key={l.code}
+                      onClick={() => {
+                        setLanguage(l.code);
+                        setIsMobileMenuOpen(false);
+                        announce(`زبان تغییر یافت به ${l.nativeName}`);
+                      }}
+                      className={`p-1.5 rounded-lg text-center text-xs font-bold transition-colors ${
+                        language === l.code ? 'bg-indigo-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-100'
+                      }`}
+                    >
+                      <span className="text-base block">{l.flag}</span>
+                      <span className="text-[10px] block truncate">{l.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onOpenAccessibilityPassport?.();
+                }}
+                className="w-full p-2.5 bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-xl text-xs font-black flex items-center justify-center gap-2"
+              >
+                <Accessibility className="w-4 h-4 text-indigo-600" />
+                <span>گذرنامه دسترسی‌پذیری توانا (WCAG 2.1 AAA)</span>
+              </button>
+
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);

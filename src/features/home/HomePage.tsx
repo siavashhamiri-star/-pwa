@@ -52,19 +52,19 @@ export const HomePage: React.FC<HomePageProps> = ({
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-l from-indigo-950 via-indigo-900 to-slate-900 text-white p-6 sm:p-12 shadow-xl border border-indigo-800/40">
         <div className="relative z-10 max-w-3xl space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-indigo-200 text-xs font-bold border border-white/20 backdrop-blur-md">
-            <Accessibility className="w-4 h-4 text-indigo-400" />
-            <span>زیست‌بوم جامع و دسترس‌پذیر توان‌آفرینان ایران</span>
+            <Accessibility className="w-4 h-4 text-amber-400" />
+            <span>اتاق جوامع اصناف • اکوسیستم آفرینا تولنا سیتی (توانا سیتی)</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black leading-tight">
-            شهر مجازی توانا
+            اتاق جوامع اصناف
             <span className="block text-indigo-300 text-lg sm:text-2xl font-bold mt-2">
-              ویترین مهارت، هنر، تخصص و خدمات دسترس‌پذیر
+              اکوسیستم آفرینا تولنا سیتی | ویترین مهارت، اصناف و خدمات دسترس‌پذیر
             </span>
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            محلی امن، محترمانه و استاندارد برای معرفی مستقیم کسب‌وکارهای توان‌یابان، خرید آگاهانه، گفتگو در تالارهای تخصصی و ارتقای سطح مناسب‌سازی شهری.
+            محلی امن، یکپارچه و استاندارد برای معرفی مستقیم کسب‌وکارهای توان‌یابان، خرید آگاهانه، گفتگو در تالارهای تخصصی اصناف و ارتقای سطح مناسب‌سازی شهری.
           </p>
 
           {/* Quick Search Bar */}
